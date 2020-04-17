@@ -9,6 +9,7 @@ from onlineweb4 import views
 from rest_framework.documentation import include_docs_urls
 
 from apps.api.urls import urlpatterns as api_urls
+from django.urls import path
 
 # URL config
 admin.autodiscover()
@@ -257,13 +258,9 @@ if "oidc_provider" in settings.INSTALLED_APPS:
         url(r"^openid/", include("oidc_provider.urls", namespace="oidc_provider"))
     ]
 
-
-# 500 view
-handler500 = views.server_error
-
 # http://docs.djangoproject.com/en/1.3/howto/static-files/#staticfiles-development
 if settings.DEBUG:
     # Media
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    # 500
-    urlpatterns += [url(r"^500/$", views.server_error)]
+
+handler500 = "onlineweb4.views.handler500"
